@@ -15,7 +15,7 @@ def hello_world():
 def exceptions(e):
     ts=strftime('[%Y-%b-%d %H:%M]')
     tb=traceback.format_exc()
-    app.logger.error('%s %s %s %s %s',
+    app.logger.error('%s %s %s %s %s %s',
                      ts,
                      flask.request.remote_addr,
                      flask.request.method,
@@ -28,4 +28,4 @@ def exceptions(e):
 
 if __name__ == "__main__":
     db.test()
-    app.run(debug=True,host='127.0.0.1',ssl_context='adhoc',port=5001)
+    app.run(debug=True,host='127.0.0.1',port=5001)
