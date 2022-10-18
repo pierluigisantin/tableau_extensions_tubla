@@ -9,7 +9,10 @@
                 url :'../../../companies',
                 method:'GET',
                 success:function(res){
-                      debugger;
+                    res.data.forEach(function(r){
+                        $('#companyData').append(new Option(r.company_name,r.company_name));
+
+                    });
                 }
             });
 
