@@ -10,6 +10,10 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello, World! these are extensions</p>"
 
+@app.route("/companies",methods=['GET'])
+def getCompanies():
+
+    return flask.jsonify(db.getCompanies())
 
 @app.errorhandler(Exception)
 def exceptions(e):
@@ -25,6 +29,10 @@ def exceptions(e):
     return "Logged Internal Server Error",500
 
 
+
+def checkTableauCookie():
+    res = flask.request.cookies.get("workgroup_session_id")
+    db.checkTableauCookie(res)
 
 if __name__ == "__main__":
     db.test()

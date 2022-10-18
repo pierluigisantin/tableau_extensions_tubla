@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Cost Control Calculation</title>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -14,11 +15,58 @@
     <script src="./lib/tableau.extensions.1.latest.min.js"></script>
 
     <!-- Our extension's code -->
-    <script src="./calculation.js"></script>
+    <script src="./calculation.js?id=3e"></script>
 </head>
 <body>
       <table id="loading" class="table">
             <tbody><tr><td>Loading...</td></tr></tbody>
       </table>
+     <table id="insDataTable" class="table">
+         <tr>
+             <td colspan="4">
+                 Create a new calculation
+             </td>
+
+         </tr>
+         <tr>
+             <td>Company:</td>
+             <td>
+                    <select id="companyData">
+                    </select>
+             </td>
+         </tr>
+         <tr>
+             <td> Calc Code:</td>
+
+             <td>
+                 <input type="text" id="calcCodeData">
+
+             </td>
+             <td>Calc Name:</td>
+             <td>
+                 <input type="text" id="calcNameData">
+
+             </td>
+         </tr>
+         <tr>
+            <td>Configuration:</td>
+             <td>
+                 <select id="configurationData">
+
+                 </select>
+             </td>
+         </tr>
+         <tr>
+             <td>Date from:</td>
+             <td>
+                 <input type="month" id="dateFromData">
+             </td>
+             <td>Date To:</td>
+             <td>
+                 <input type="month" id="dateToData">
+             </td>
+         </tr>
+     </table>
+     <button>submit</button>
 </body>
 </html>

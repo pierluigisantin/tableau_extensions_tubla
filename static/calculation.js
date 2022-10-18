@@ -3,9 +3,25 @@
   $(document).ready(function () {
     tableau.extensions.initializeAsync().then(function () {
 
-            debugger;
+            //let's fill in the GUI controls with required data
+            $.ajax(
+            {
+                url :'../../../companies',
+                method:'GET',
+                success:function(res){
+                      debugger;
+                }
+            });
 
+
+
+
+            //
              $('#loading').addClass('hidden');
     });
+
+
+
+
  });
  })();
