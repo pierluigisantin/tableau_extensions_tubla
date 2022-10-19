@@ -25,12 +25,28 @@
 
             getdatasourcesArray();
 
+            $("#submitButton").on('click',submitClick)
+
 
             //
              $('#loading').addClass('hidden');
     });
 
+var submitClick=function(){
+    if ((selectedConfig)&&(selectedConfig["Companycode"])&&(selectedConfig["Configuration Id"])){
+        var submitData = {
+            configurationId:        selectedConfig["Configuration Id"],
+            companyCode:            selectedConfig["Companycode"],
+            dateFrom:               $("#dateFromData").val(),
+            dateTo:                 $("#dateToData").val()
 
+        };
+
+        alert(submitData);
+    }
+
+
+}//end of var submitClick=function
 
 
 var getSelectedConfig=function(){
@@ -63,15 +79,17 @@ var getSelectedConfig=function(){
                 $('#configurationData').val(selectedData["Configuration Descr" ]);
                 var dtfrom = selectedData["Start Date"];
                 var dtTo = selectedData["End Date"];
-                yearFrom = dtfrom.split("/")[2];
-                monthFrom = dtfrom.split("/")[1];
-                yearTo=dtTo.split("/")[2];
-                monthTo = dtTo.split("/")[1];
-                $("#dateFromData").val(yearFrom+"-"+monthFrom);
-                $("#dateToData").val(yearTo+"-"+monthTo);
-                //this is to be sure that selected dates comply with dates of configuration
-                $("#dateFromData").on('change',checkDateFrom);
-                $("#dateToData").on('change',checkDateTo);
+                if (dtfrom){
+                    yearFrom = dtfrom.split("/")[2];
+                    monthFrom = dtfrom.split("/")[1];
+                    yearTo=dtTo.split("/")[2];
+                    monthTo = dtTo.split("/")[1];
+                    $("#dateFromData").val(yearFrom+"-"+monthFrom);
+                    $("#dateToData").val(yearTo+"-"+monthTo);
+                    //this is to be sure that selected dates comply with dates of configuration
+                    $("#dateFromData").on('change',checkDateFrom);
+                    $("#dateToData").on('change',checkDateTo);
+                }
 
 
         });
@@ -80,10 +98,34 @@ var getSelectedConfig=function(){
 
 
 var checkDateFrom=function(){
-    alert('date from');
+    //alert($("#dateFromData").val());
+    var selVal = $("#dateFromData").val();
+    var selYear = selVal.split("-")[0];
+    var selMonth=selVal.split("-")[1];
+    if (parseInt(selYear)>=parseInt(yearFrom) &&
+       parseInt(selMonth)>=parseInt(monthFrom) &&
+       parseInt(selYear)<=parseInt(yearTo) &&
+       parseInt(selMonth)<=parseInt(monthTo)){
+       //thats ok
+       }else{
+            $("#dateFromData").val(yearFrom+"-"+monthFrom);
+       }
+
 };//end var checkDateFrom=function
 var checkDateTo=function(){
-    alert('date to');
+    //alert($("#dateToData").val());
+        //alert($("#dateFromData").val());
+    var selVal = $("#dateToData").val();
+    var selYear = selVal.split("-")[0];
+    var selMonth=selVal.split("-")[1];
+    if (parseInt(selYear)>=parseInt(yearFrom) &&
+       parseInt(selMonth)>=parseInt(monthFrom) &&
+       parseInt(selYear)<=parseInt(yearTo) &&
+       parseInt(selMonth)<=parseInt(monthTo)){
+       //thats ok
+       }else{
+            $("#dateToData").val(yearTo+"-"+monthTo);
+       }
 };//end var checkDateTo=function
 
 var getdatasourcesArray = function(){
