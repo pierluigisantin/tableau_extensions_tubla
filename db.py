@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from datetime import  datetime
 def createConnection():
     conn = psycopg2.connect(database="BI", user="BI", password="BITUBLA2020", host='127.0.0.1', port=5432,cursor_factory=RealDictCursor)
     return  conn
@@ -7,6 +8,25 @@ def createConnection():
 def createTableauConnection():
     conn = psycopg2.connect(database="workgroup", user="readonly", password="Paper0tt0", host='10.24.130.60', port=8060,cursor_factory=RealDictCursor)
     return  conn
+
+def saveCalculation(data):
+    conn = createConnection()
+    curr = conn.cursor()
+    sql = "insert into costcalc.calculation (calc_code,calc_name,configuration_id,company_code,status,date_from,date_to) " \
+          " values " \
+          "( %s,%s,%s,%s,%s,%s,%s )"
+    curr.execute(sql,
+                 (data["calc_code"],
+                  data["calc_name"],
+                  data["configuration_id"],
+                  data["company_code"],
+                  0,#status,
+                  datetime.strptime(data["date_from"], '%Y-%m-%d'),
+                  datetime.strptime(data["date_to"], '%Y-%m-%d')
+                  )
+                  )
+    conn.commit()
+    conn.close()
 
 
 def getCompanies():

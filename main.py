@@ -1,3 +1,5 @@
+import json
+
 import flask
 from flask import Flask
 from time import strftime
@@ -14,6 +16,13 @@ def hello_world():
 def getCompanies():
 
     return flask.jsonify(db.getCompanies())
+
+@app.route("/calculation",methods=['POST'])
+def postCalculation():
+    content = flask.request.get_json()
+    db.saveCalculation(content)
+    return json.dumps({'status':'OK'})
+
 
 @app.errorhandler(Exception)
 def exceptions(e):

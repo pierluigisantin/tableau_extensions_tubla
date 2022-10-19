@@ -34,15 +34,41 @@
 
 var submitClick=function(){
     if ((selectedConfig)&&(selectedConfig["Companycode"])&&(selectedConfig["Configuration Id"])){
+
+
+        var ddatefrom = $("#dateFromData").val()+'-01';
+
+
+
+        var ddatetoAux= new Date(parseInt($("#dateToData").val().split("-")[0]),
+                              parseInt($("#dateToData").val().split("-")[1]),
+                               0);
+
+        var ddateto = ddatetoAux.getFullYear()+'-'+(ddatetoAux.getMonth()+1)+'-'+ddatetoAux.getDate();
+
+
         var submitData = {
-            configurationId:        selectedConfig["Configuration Id"],
-            companyCode:            selectedConfig["Companycode"],
-            dateFrom:               $("#dateFromData").val(),
-            dateTo:                 $("#dateToData").val()
+            configuration_id:        selectedConfig["Configuration Id"],
+            company_code:            selectedConfig["Companycode"],
+            date_from:               ddatefrom,
+            date_to:                 ddateto,
+            calc_code:               $("#calcCodeData").val(),
+            calc_name:               $("#calcNameData").val()
 
         };
 
-        alert(submitData);
+        $.ajax({
+            url:"../../calculation",
+            method:"POST",
+            contentType:'application/json',
+            data : JSON.stringify(submitData),
+            error: function(){alert("error in posting data");},
+            success: function(){
+                datasourcesArray.forEach(function(d){
+                    d.refreshAsync();
+                });
+            }
+        });
     }
 
 
@@ -165,6 +191,7 @@ var getdatasourcesArray = function(){
                         if (!dashboardDataSources[dataSource.id]) { // We've already seen it, skip it.
                           dashboardDataSources[dataSource.id] = dataSource;
                           datasourcesArray.push(dataSource);
+                          dataSource.refreshAsync();
                         }
                       });
                     });
