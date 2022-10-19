@@ -15,7 +15,7 @@
     <script src="./lib/tableau.extensions.1.latest.min.js"></script>
 
     <!-- Our extension's code -->
-    <script src="./calculation.js?id=3eff"></script>
+    <script src="./calculation.js?id=3e8fyf"></script>
 </head>
 <body>
       <table id="loading" class="table">
@@ -29,10 +29,18 @@
 
          </tr>
          <tr>
-             <td>Company:</td>
-             <td>
-                    <select id="companyData">
-                    </select>
+             <td>Selected Company:</td>
+             <td colspan="3">
+                    <input id="companyData" readonly="true" style="width:100%">
+                    </input>
+             </td>
+         </tr>
+         <tr>
+            <td>Selected Configuration:</td>
+             <td colspan="3">
+                 <input id="configurationData" readonly="true" style="width:100%">
+
+                 </input>
              </td>
          </tr>
          <tr>
@@ -48,14 +56,7 @@
 
              </td>
          </tr>
-         <tr>
-            <td>Configuration:</td>
-             <td>
-                 <select id="configurationData">
 
-                 </select>
-             </td>
-         </tr>
          <tr>
              <td>Date from:</td>
              <td>
