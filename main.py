@@ -1,5 +1,5 @@
 import json
-
+import sys
 import flask
 from flask import Flask
 from time import strftime
@@ -45,4 +45,11 @@ def checkTableauCookie():
 
 if __name__ == "__main__":
     db.test()
-    app.run(debug=True,host='127.0.0.1',port=5001)
+
+    #read port from command line
+    portToUse = 5001
+    if len(sys.argv[1:])>0:
+        portToUse=    sys.argv[1:][0]
+
+
+    app.run(debug=True,host='127.0.0.1',port=portToUse)
