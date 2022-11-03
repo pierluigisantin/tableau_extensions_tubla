@@ -10,11 +10,14 @@ def createTableauConnection():
     return  conn
 
 def saveCalculation(data):
+    uname = data["user_name"]
+    checkTableauUser(uname)
+
     conn = createConnection()
     curr = conn.cursor()
-    sql = "insert into costcalc.calculation (calc_code,calc_name,configuration_id,company_code,status,date_from,date_to) " \
+    sql = "insert into costcalc.calculation (calc_code,calc_name,configuration_id,company_code,status,date_from,date_to,created_by) " \
           " values " \
-          "( %s,%s,%s,%s,%s,%s,%s )"
+          "( %s,%s,%s,%s,%s,%s,%s ,%s)"
     curr.execute(sql,
                  (data["calc_code"],
                   data["calc_name"],
@@ -22,7 +25,8 @@ def saveCalculation(data):
                   data["company_code"],
                   0,#status,
                   datetime.strptime(data["date_from"], '%Y-%m-%d'),
-                  datetime.strptime(data["date_to"], '%Y-%m-%d')
+                  datetime.strptime(data["date_to"], '%Y-%m-%d'),
+                  uname
                   )
                   )
     conn.commit()
@@ -42,24 +46,26 @@ def getCompanies():
         data.append(obj)
     conn.close()
     return {'data':data}
-def checkTableauCookie(cookie):
 
 
-    if cookie is not None:
-        num=0
-        sessionid = cookie.split('|')
-        sessionid=sessionid[0]
-        conn = createTableauConnection()
-        cur = conn.cursor()
-        cur.execute("select count(1) as num from public\"_sessions\" where session_id='%s' ", (sessionid))
-        rows = cur.fetchall()
-        for row in rows:
-            num=row[0]
-        conn.close()
-        if num==0:
+def checkTableauUser(user):
+
+        if user is not None:
+            num = 0
+
+            conn = createTableauConnection()
+            cur = conn.cursor()
+            sql="select count(1) as num from public.\"_sessions\" where user_name='{uname}'    ".format(uname=user)
+
+            cur.execute(sql)
+            rows = cur.fetchall()
+            for row in rows:
+                num = row["num"]
+            conn.close()
+            if num == 0:
+                raise Exception("function called by user not logged in Tableau")
+        else:
             raise Exception("function called by user not logged in Tableau")
-    else:
-        raise Exception("function called by user not logged in Tableau")
 
 def test():
     conn = createConnection()

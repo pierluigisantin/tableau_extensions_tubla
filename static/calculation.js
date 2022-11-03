@@ -4,6 +4,7 @@
 
 
     const _configWorksheetName='ConfigSelection';
+    const _userWorksheetName='current_user';
 
     //here we store datasources of dashboard
     var datasourcesArray = [];
@@ -15,6 +16,9 @@
     var monthFrom ;
     var yearTo;
     var monthTo;
+
+
+    var username;
 
 
 
@@ -53,7 +57,8 @@ var submitClick=function(){
             date_from:               ddatefrom,
             date_to:                 ddateto,
             calc_code:               $("#calcCodeData").val(),
-            calc_name:               $("#calcNameData").val()
+            calc_name:               $("#calcNameData").val(),
+            user_name:               username
 
         };
 
@@ -181,6 +186,11 @@ var getdatasourcesArray = function(){
                                 // When the selection changes, reload the data
                                 getSelectedConfig();
                         });
+                }
+                if (worksheet.name===_userWorksheetName){
+                    worksheet.getSummaryDataAsync().then(function(sumdata){
+                        username=sumdata.data[0][0].value;
+                    });
                 }
 
 
