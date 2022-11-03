@@ -58,7 +58,7 @@ var submitClick=function(){
         };
 
         $.ajax({
-            url:"../../calculation",
+            url:"../calculation",
             method:"POST",
             contentType:'application/json',
             data : JSON.stringify(submitData),
