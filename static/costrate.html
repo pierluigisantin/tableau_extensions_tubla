@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cost Control Calculation</title>
+    <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+    <!-- Extensions Library (this will be hosted on a CDN eventually) -->
+    <script src="./lib/tableau.extensions.1.latest.min.js"></script>
+
+    <!-- Our extension's code -->
+    <script src="./costrate.js?id=3eftyf"></script>
+</head>
+<body>
+      <table id="loading" class="table">
+            <tbody><tr><td>Loading...</td></tr></tbody>
+      </table>
+
+     <table id="insDataTable" class="table">
+        <tr>
+          <td>Cost Center:</td>
+          <td><div id="txtCostCenter"></div></td>
+        </tr>
+         <tr>
+          <td>Cost Type:</td>
+          <td><div id="txtCostType"></div></td>
+        </tr>
+       <tr>
+          <td>Cost Rate:</td>
+         <td><div id="txtCostRate"></div></td>
+       </tr>
+        <tr>
+          <td>New Value:</td>
+         <td><input type="number" id="txtNewValue"></td>
+       </tr>
+          <tr>
+          <td>Delta:</td>
+         <td><input type="number" id="txtDelta"></td>
+       </tr>
+     </table>
+     <button id="submitButton" disabled>submit</button>
+    <hr>
+    <hr>
+
+    <table class="table">
+        <tr>
+            <td>Date for price list:</td>
+            <td><input type="date" id="dateForPriceList"></td>
+        </tr>
+        <tr>
+             <td> Pricing Code:</td>
+
+             <td>
+                 <input type="text" id="calcCodeData">
+
+             </td>
+             <td>Pricing Name:</td>
+             <td>
+                 <input type="text" id="calcNameData">
+
+             </td>
+         </tr>
+    </table>
+    <button id="runButton" disabled> Start pricing </button>
+    <div id="divMsg">
+
+    </div>
+</body>
+</html>

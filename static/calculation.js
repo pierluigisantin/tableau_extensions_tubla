@@ -25,7 +25,7 @@
     tableau.extensions.initializeAsync().then(function () {
 
 
-
+            initForm();
 
             getdatasourcesArray();
 
@@ -35,6 +35,16 @@
             //
              $('#loading').addClass('hidden');
     });
+
+
+var initForm=function(){
+    var now=new Date();
+    var day=("0"+now.getDate()).slice(-2);
+    var month=("0"+(now.getMonth()+1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day);
+
+    //$('#dateForPriceList').val(today);
+} ;
 
 var submitClick=function(){
     if ((selectedConfig)&&(selectedConfig["Companycode"])&&(selectedConfig["Configuration Id"])){
@@ -59,7 +69,6 @@ var submitClick=function(){
             calc_code:               $("#calcCodeData").val(),
             calc_name:               $("#calcNameData").val(),
             user_name:               username
-
         };
 
         $.ajax({

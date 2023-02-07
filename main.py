@@ -23,6 +23,17 @@ def postCalculation():
     db.saveCalculation(content)
     return json.dumps({'status':'OK'})
 
+@app.route("/calculation_bom_explosion",methods=['POST'])
+def postCalculationBomExplosion():
+    content = flask.request.get_json()
+    db.saveCalculationBomExplosion(content)
+    return json.dumps({'status':'OK'})
+@app.route("/costrate",methods=['POST'])
+def postCostRate():
+    content = flask.request.get_json()
+    db.saveCostRate(content)
+    return json.dumps({'status':'OK'})
+
 
 @app.errorhandler(Exception)
 def exceptions(e):

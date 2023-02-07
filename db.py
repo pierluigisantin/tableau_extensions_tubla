@@ -9,6 +9,82 @@ def createTableauConnection():
     conn = psycopg2.connect(database="workgroup", user="readonly", password="Paper0tt0", host='10.24.130.60', port=8060,cursor_factory=RealDictCursor)
     return  conn
 
+
+
+
+
+def saveCostRate(data):
+    uname = data["user_name"]
+    checkTableauUser(uname)
+
+    conn = createConnection()
+    curr =conn.cursor()
+    sql = "delete from costcalc.cost_rates_modification where calc_id=%s and cost_center=%s and cost_type=%s"
+    curr.execute(sql,
+                 (data["calc_id"],
+                 data["cost_center"],
+                  data["cost_type"]))
+    sql= "insert into costcalc.cost_rates_modification (cost_type,created_by,calc_id,cost_center,new_value,delta)"\
+         "values"\
+         "(%s,%s,%s,%s,case when %s='' then null else %s end::double precision,case when %s='' then null else %s end::double precision)"
+    curr.execute(sql,
+                 (
+                 data["cost_type"],
+                 data["user_name"],
+                 data["calc_id"],
+                 data["cost_center"],
+                 data["new_value"],
+                 data["new_value"],
+                 data["delta"],
+                 data["delta"]))
+    conn.commit()
+    conn.close()
+
+def saveCalculationBomExplosion(data):
+    uname = data["user_name"]
+    checkTableauUser(uname)
+
+    conn = createConnection()
+    curr = conn.cursor()
+    curr2 = conn.cursor()
+    curr3 = conn.cursor()
+
+
+
+    new_calc_bom_exp_id=1
+    sql ="select coalesce(max(calc_bom_exp_id),0) as num from costcalc.calculation_bom_explosion where calc_id=%s"
+    curr.execute(sql, (data["calc_id"],))
+    rows = curr.fetchall()
+    for row in rows:
+        new_calc_bom_exp_id=row["num"]
+
+    new_calc_bom_exp_id=new_calc_bom_exp_id+1
+
+    sql="insert into costcalc.calculation_bom_explosion (calc_id,calc_code,calc_name,status,created_by,calc_bom_exp_id,date_for_price_list) values "\
+        "(%s,%s,%s,%s,%s,%s,%s)"
+    curr2.execute(sql,(
+        data["calc_id"],
+        data["calc_code"],
+        data["calc_name"],
+        0,
+        data["user_name"],
+        new_calc_bom_exp_id,
+        datetime.strptime(data["date_for_price_list"],'%Y-%m-%d')
+    ))
+
+    sql= "select costcalc.copy_cost_rates(%s,%s,%s)"
+    curr3.execute(sql,(
+        data["calc_id"],
+        new_calc_bom_exp_id,
+        data["user_name"]
+    ))
+
+
+
+    conn.commit()
+    conn.close()
+
+
 def saveCalculation(data):
     uname = data["user_name"]
     checkTableauUser(uname)
