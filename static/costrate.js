@@ -4,7 +4,7 @@
     const _secundaryworksheetname='CalcBomExps';
     const _userWorksheetName='current_user';
     const _calcStatusWorksheetName='current_calc_status';
-    const _calcidParamName ='p_selectedCalcId';
+    const _calcidParamName ='pCalcId';
     var _calc_status;
     var _worksheet;
     var _calc_id;
@@ -25,7 +25,8 @@
             dashboard.worksheets.forEach(function (worksheet) {
                 if (worksheet.name===_worksheetname){
                     worksheet.findParameterAsync(_calcidParamName).then(function(p){
-                       _calc_id=p.currentValue.nativeValue;
+                       if (p)
+                          _calc_id=p.currentValue.nativeValue;
                     });
                 }
             });
@@ -43,6 +44,9 @@
                             _datasource.refreshAsync();
                         });
                     });
+
+
+
 
 
 
